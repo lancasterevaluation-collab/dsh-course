@@ -200,7 +200,12 @@ const Ce = trueFanOut.length
 const Ca = trueFanInAll.length
 const trueI = Ca + Ce === 0 ? 0 : Ce / (Ca + Ce)
 
-const tts = T1.target ?? {}
+// 前置校验：模块名未填、或该模块不在此仓库里时，T1 一律按未作答记 0 分。
+// 否则查不到模块会让"标准答案"变成空集，而 setRatio 对空集返回 1，
+// 于是空作答反而拿到满分。
+const moduleResolvable =
+  typeof T1.module === 'string' && T1.module.trim() !== '' && sourceOf.has(canon(targetModule))
+const tts = moduleResolvable ? (T1.target ?? {}) : {}
 
 item(
   'T1.1 扇出清单（只算值依赖）',

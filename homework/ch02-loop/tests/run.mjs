@@ -44,7 +44,7 @@ const ONLY = argOf('--only', '')
  * 2.2（工具系统）占 30：客观题 24 + 构建题 6。
  * 其余各项随讲义推进陆续加入——它们对应 2.3–2.7 五篇，每篇同样按"客观 + 构建"两项记。
  */
-const WEIGHTS = { t1: 24, t2: 6, t3: 24, t4: 6 }
+const WEIGHTS = { t1: 11, t2: 11, t3: 11, t4: 11, t5: 11, t6: 11, t7: 11, t8: 11, t9: 12 }
 
 /** 跑一个判分脚本，返回它的输出。 */
 function runGrader(file, args = [], env = {}) {
@@ -74,23 +74,49 @@ const tasks = [
   {
     key: 't1',
     label: 't1-llm     2.1 模型层 · 客观题',
-    run: () => runGrader('t1-llm.mjs', ['--answers', argOf('--answers', 'kit/answers/a1-llm.json')]),
+    run: () => runGrader('t1-llm.mjs', ['--answers', process.env.A_ANSWERS ?? argOf('--answers', 'kit/answers/a1-llm.json')]),
   },
   {
     key: 't2',
     label: 't2-build   2.1 模型层 · 构建题',
-    run: () => runGrader('t2-build.mjs', [], { IMPL: process.env.IMPL ?? '../kit/src/llm.mjs' }),
+    run: () => runGrader('t2-build.mjs', [], { IMPL: process.env.IMPL_LLM ?? process.env.IMPL ?? '../kit/src/llm.mjs' }),
   },
   {
     key: 't3',
     label: 't3-tools    2.2 工具系统 · 客观题',
-    run: () => runGrader('t3-tools.mjs', ['--answers', argOf('--answers-a2', 'kit/answers/a2-tools.json')]),
+    run: () => runGrader('t3-tools.mjs', ['--answers', process.env.B_ANSWERS ?? argOf('--answers-a2', 'kit/answers/a2-tools.json')]),
   },
   {
     key: 't4',
     label: 't4-build    2.2 工具系统 · 构建题',
     // ★ 与 t2 分开的变量名：两者都要 IMPL，但指向不同的文件。
     run: () => runGrader('t4-build.mjs', [], { IMPL: process.env.IMPL_TOOLS ?? '../kit/src/tools.mjs' }),
+  },
+  {
+    key: 't5',
+    label: 't5-container 2.3 容器与依赖注入 · 构建题',
+    run: () =>
+      runGrader('t5-container.mjs', [], { IMPL: process.env.IMPL_CONTAINER ?? '../kit/src/container.mjs' }),
+  },
+  {
+    key: 't6',
+    label: 't6-events    2.4 事件与扩展点 · 构建题',
+    run: () => runGrader('t6-events.mjs', [], { IMPL: process.env.IMPL_EVENTS ?? '../kit/src/events.mjs' }),
+  },
+  {
+    key: 't7',
+    label: 't7-scope     2.5 作用域与隔离 · 构建题',
+    run: () => runGrader('t7-scope.mjs', [], { IMPL: process.env.IMPL_SCOPE ?? '../kit/src/scope.mjs' }),
+  },
+  {
+    key: 't8',
+    label: 't8-compose   2.6 装配与配置组合 · 构建题',
+    run: () => runGrader('t8-compose.mjs', [], { IMPL: process.env.IMPL_COMPOSE ?? '../kit/src/compose.mjs' }),
+  },
+  {
+    key: 't9',
+    label: 't9-session   2.7 会话日志与循环 · 构建题',
+    run: () => runGrader('t9-session.mjs', [], { IMPL: process.env.IMPL_SESSION ?? '../kit/src/session.mjs' }),
   },
 ]
 
@@ -121,20 +147,16 @@ for (const task of selected) {
 }
 
 // 未实现的判分项要如实列出——它们不是"通过"，而是"还没有"
-const pending = [
-  ['t5', '2.3 容器与依赖注入', '讲义与作业尚未写作'],
-  ['t6', '2.4 事件与扩展点', '讲义与作业尚未写作'],
-  ['t7', '2.5 作用域与隔离', '讲义与作业尚未写作'],
-  ['t8', '2.6 装配与配置组合', '讲义与作业尚未写作'],
-  ['t9', '2.7 会话日志与循环', '讲义与作业尚未写作'],
-]
+const pending = []
 
 console.log('  ' + '─'.repeat(56))
-console.log('  尚未实现的判分项：')
-for (const [key, label, why] of pending) {
-  console.log(`    ${key.padEnd(4)} ${label.padEnd(38)} ${why}`)
+if (pending.length > 0) {
+  console.log('  尚未实现的判分项：')
+  for (const [key, label, why] of pending) {
+    console.log(`    ${key.padEnd(4)} ${label.padEnd(38)} ${why}`)
+  }
+  console.log('')
 }
-console.log('')
 
 const headline = Object.keys(WEIGHTS).map((key) => {
   const r = results.find((x) => x.key === key)

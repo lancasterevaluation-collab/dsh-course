@@ -259,13 +259,24 @@ let earned = 0
 let total = 0
 const failures = []
 
+// 前置校验：实现仍是模板时直接判 0 分。
+// 否则"否定式判据"（例如"代码里不出现厂商字样"）会在空实现上白送分——
+// 这些判据问的是"有没有做错"，而空实现什么都没做，自然不算错。
+const IMPL_SOURCE = readFileSync(new URL(IMPL, import.meta.url), 'utf8')
+const UNFILLED = /\bTODO\s*\d/.test(IMPL_SOURCE)
+if (UNFILLED) console.log('实现仍是模板（含 TODO 标记），按未作答记 0 分。\n')
+
 for (const c of CASES) {
   total += c.weight
   let why = ''
-  try {
-    why = (await c.run()) || ''
-  } catch (e) {
-    why = `检查本身抛错：${e?.message ?? e}`
+  if (UNFILLED) {
+    why = '实现仍是模板（含 TODO 标记）'
+  } else {
+    try {
+      why = (await c.run()) || ''
+    } catch (e) {
+      why = `检查本身抛错：${e?.message ?? e}`
+    }
   }
   if (why) {
     failures.push(c.name)
@@ -281,7 +292,7 @@ for (const c of CASES) {
 // 静态检查单列，因为它检查的是源码而不是行为
 {
   total += 12
-  const r = staticCheck()
+  const r = UNFILLED ? { ok: false, why: '实现仍是模板（含 TODO 标记）' } : staticCheck()
   if (r.ok) {
     earned += 12
     if (VERBOSE) console.log(`✅ E1 · ★ 代码行里不出现厂商字样  （承诺 1）`)

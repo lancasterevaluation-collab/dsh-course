@@ -70,14 +70,16 @@ function parseScore(out) {
 
 /** 检查一份作答文件是否填齐（非空、且不含模板占位符）。 */
 function checkNotes() {
+  // 作答目录可被环境变量覆盖，用于拿参考答案验证判据本身（与 A_ANSWERS 同一用途）。
+  const answerDir = process.env.NOTES_DIR ?? join('kit', 'answers')
   const required = [
-    ['answers/a1-lifecycle.md', '1.1 一个功能的一生'],
-    ['answers/a2-debt.md', '1.2 复杂度与技术债'],
+    ['a1-lifecycle.md', '1.1 一个功能的一生'],
+    ['a2-debt.md', '1.2 复杂度与技术债'],
   ]
   const filled = []
   const missing = []
   for (const [rel, label] of required) {
-    const p = join(CH, 'kit', rel)
+    const p = join(CH, answerDir, rel)
     if (!existsSync(p)) {
       missing.push(`${label}（${rel} 不存在）`)
       continue
@@ -95,12 +97,12 @@ const tasks = [
   {
     key: 't3',
     label: 't3-architecture  读代码与架构',
-    run: () => runGrader('t3-architecture.mjs', ['--answers', 'kit/answers/a3-architecture.json', '--repo', argOf('--repo', 'D:\\dsh-mini')]),
+    run: () => runGrader('t3-architecture.mjs', ['--answers', process.env.A_ANSWERS ?? 'kit/answers/a3-architecture.json', '--repo', argOf('--repo', 'D:\\dsh-mini')]),
   },
   {
     key: 't4',
     label: 't4-contract      接口与契约（分析）',
-    run: () => runGrader('t4-contract.mjs', ['--answers', 'kit/answers/a4-contract.json']),
+    run: () => runGrader('t4-contract.mjs', ['--answers', process.env.B_ANSWERS ?? 'kit/answers/a4-contract.json']),
   },
   {
     key: 't5',

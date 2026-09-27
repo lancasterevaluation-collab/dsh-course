@@ -10,7 +10,8 @@ import { fileURLToPath } from 'node:url'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 
-// 两套骨架并存：legacy 是重写前的 17 节，v2 是重写后的 16 节（五层范式）。
+// 三套骨架并存：legacy 是重写前的 17 节，v2 是"教科书"形态的 16 节，
+// web 是"教学网页"形态——场景在前、怎么做在后、原理与工程化收尾，标题贴合内容。
 const ANCHORS_LEGACY = [
   '## 本篇新词', '## 第 0 节', '## 第 0.5 节', '## L0 要解决的问题', '## L1 设计与原理',
   '## L2 决策表', '@L3', '## L4 运行与验证', '## L5 语法速查',
@@ -24,6 +25,16 @@ const ANCHORS_V2 = [
   '## 十、仍未解决', '## 十一、提问训练', '## 十二、系统影响回溯',
   '## 十三、只记一句话 + 记忆锚点', '## 全篇知识结构',
 ]
+// web 形态用前缀匹配（各篇的"一、""二、"后面接各自的内容），因此这里只写固定前缀。
+// web 形态只固定开头三节；后半段允许按篇目内容自由组织，因此用主题正则检查。
+const ANCHORS_WEB = ['## 目录', '## 读完这一篇你会知道什么', '## 一、', '## 二、', '## 三、']
+const WEB_TOPICS = [
+  [/特殊情况|边界情况|例外/, '特殊情况与处理技巧'],
+  [/理论|原理/, '理论/原理'],
+  [/工程化|落地|工业|实战/, '工程化与实战'],
+  [/练习|动手做/, '练习'],
+  [/算例/, '算例'],
+]
 const ANCHORS = ANCHORS_V2
 
 // 判断力型（第 1 卷）门槛更高：其 L1 是原理主体。
@@ -35,8 +46,10 @@ function check(absPath, relPath) {
   const s = readFileSync(absPath, 'utf8')
   const issues = []
 
-  const skeleton = s.includes('## 三、【严格】') ? 'v2' : 'legacy'
-  const list = skeleton === 'v2' ? ANCHORS_V2 : ANCHORS_LEGACY
+  const skeleton = s.includes('## 三、【严格】')
+    ? 'v2'
+    : (s.includes('## 读完这一篇你会知道什么') ? 'web' : 'legacy')
+  const list = skeleton === 'v2' ? ANCHORS_V2 : (skeleton === 'web' ? ANCHORS_WEB : ANCHORS_LEGACY)
   let last = -1
   for (const a of list) {
     // L3 有两种形态：判断力型是「案例逐段解析」，实现型是「施工图」
@@ -44,6 +57,11 @@ function check(absPath, relPath) {
     if (i < 0) { issues.push(`缺少锚点：${a}`); continue }
     if (i < last) issues.push(`锚点顺序错误：${a}`)
     last = i
+  }
+  if (skeleton === 'web') {
+    for (const [pattern, label] of WEB_TOPICS) {
+      if (!pattern.test(s)) issues.push(`web 主题缺失：${label}`)
+    }
   }
 
   // 拆成"单元"：散文段落、单个列表项、单行引用；表格/标题/代码块不参与。
@@ -67,7 +85,8 @@ function check(absPath, relPath) {
   // 其余为 5 处/千字符。理由是定义与命题的标识加粗属于结构而非强调，
   // 与"表格、术语表不受限"是同一条逻辑（见 0.6 规范第 5.5 节）。
   const theoremBlocks = (s.match(/^:::\s*theorem/gm) ?? []).length
-  const boldLimit = theoremBlocks >= 5 ? 7.5 : 5
+  // web 形态没有容器承载强调，加粗是主要的视觉层次手段，因此适用更高的密度上限。
+  const boldLimit = skeleton === 'web' ? 14 : (theoremBlocks >= 5 ? 7.5 : 5)
   // 加粗判据用「密度」（处/千字符），不用「占比」。
   // 理由：占比与段落长度耦合——短段落各带一处强调时占比必然很高，而"每段一个重点"
   // 恰恰是本判据鼓励的写法；用占比会把它判为超标，用密度则不会。
@@ -102,6 +121,12 @@ function check(absPath, relPath) {
     intro = seg(i.read, i.strict)
     l1 = seg(i.strict, i.anchor)
     l3 = seg(i.build, i.fail)
+  } else if (skeleton === 'web') {
+    // web 形态按"读完能跟着做出来"组织（场景 → 怎么做 → 特殊情况 → 理论 → 工程化），
+    // 导论与理论层的篇幅比例在这里不适用，因此不参与判定。
+    intro = 0
+    l1 = 0
+    l3 = 0
   } else {
     const idx = {
       w: s.indexOf('## 本篇新词'), l0: s.indexOf('## L0'), l2: s.indexOf('## L2'),
@@ -116,15 +141,17 @@ function check(absPath, relPath) {
   const corePct = ((l1 + l3) / total) * 100
   const floor = JUDGMENT_VOLUMES.some((v) => relPath.startsWith(v)) ? 42 : 35
 
-  if (introPct > 21) issues.push(`导论 ${introPct.toFixed(1)}% > 21%（目标 20%）`)
-  if (corePct < floor) issues.push(`L1+L3 ${corePct.toFixed(1)}% < ${floor}%`)
+  if (skeleton !== 'web') {
+    if (introPct > 21) issues.push(`导论 ${introPct.toFixed(1)}% > 21%（目标 20%）`)
+    if (corePct < floor) issues.push(`L1+L3 ${corePct.toFixed(1)}% < ${floor}%`)
+  }
 
   return {
     篇: relPath.replace(/\\/g, '/'),
     骨架: skeleton,
     字符: s.length,
-    导论: `${introPct.toFixed(1)}%`,
-    'L1+L3': `${corePct.toFixed(1)}%`,
+    导论: skeleton === 'web' ? '—' : `${introPct.toFixed(1)}%`,
+    'L1+L3': skeleton === 'web' ? '—' : `${corePct.toFixed(1)}%`,
     加粗密度: `${boldDensity.toFixed(1)} 处/千字符`,
     结构: issues.length === 0 ? '通过' : `${issues.length} 项待修`,
     问题: issues.join('；'),
