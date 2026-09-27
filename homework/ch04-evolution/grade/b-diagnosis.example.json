@@ -1,0 +1,75 @@
+{
+  "_readme": "Part B 的参考答案（只用于验证测试本身）。每个场景两个候选，其中至少一项的证据是反事实或可复现。",
+  "failures": [
+    {
+      "id": "f1", "kind": "silent",
+      "candidates": [
+        { "cause": "检查本身写错了（期望值与实际正确行为不符）", "evidence": "counterfactual" },
+        { "cause": "产物确实不对而流程没有报错（缺少一步校验）", "evidence": "correlation" }
+      ]
+    },
+    {
+      "id": "f2", "kind": "error",
+      "candidates": [
+        { "cause": "工具的输入参数不合法（越界或类型不符）", "evidence": "reproducible" },
+        { "cause": "外部依赖在那一刻不可用（偶发）", "evidence": "correlation" }
+      ]
+    },
+    {
+      "id": "f3", "kind": "goal-miss",
+      "candidates": [
+        { "cause": "成功判据与用户意图不一致（判据写得太窄）", "evidence": "counterfactual" },
+        { "cause": "任务的目标在过程中被隐含地改写了", "evidence": "correlation" }
+      ]
+    },
+    {
+      "id": "f4", "kind": "error",
+      "candidates": [
+        { "cause": "单次调用的超时上限过小", "evidence": "counterfactual" },
+        { "cause": "输入过长导致首 token 很慢", "evidence": "correlation" }
+      ]
+    },
+    {
+      "id": "f5", "kind": "error",
+      "candidates": [
+        { "cause": "命令依赖的环境变量或路径在本次运行中缺失", "evidence": "reproducible" },
+        { "cause": "命令本身在目标平台上不可用", "evidence": "correlation" }
+      ]
+    },
+    {
+      "id": "f6", "kind": "silent",
+      "candidates": [
+        { "cause": "生成该文件的那一步被跳过了（条件分支没走到）", "evidence": "reproducible" },
+        { "cause": "该文件的读取路径与写入路径不一致", "evidence": "correlation" }
+      ]
+    },
+    {
+      "id": "f7", "kind": "goal-miss",
+      "candidates": [
+        { "cause": "任务在早期就偏离了目标（第一步的判断错了）", "evidence": "counterfactual" },
+        { "cause": "目标本身不可达（在给定预算下）", "evidence": "correlation" }
+      ]
+    },
+    {
+      "id": "f8", "kind": "silent",
+      "candidates": [
+        { "cause": "工具的返回值语义与前一次不同（版本差异）", "evidence": "counterfactual" },
+        { "cause": "调用方对返回内容的解析写错了", "evidence": "correlation" }
+      ]
+    },
+    {
+      "id": "f9", "kind": "silent",
+      "candidates": [
+        { "cause": "压缩策略变了（同样的输入被更激进地压缩）", "evidence": "counterfactual" },
+        { "cause": "模型版本在两次运行之间发生了变化", "evidence": "correlation" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "id": "r1", "rewritten": "把这类任务拆成更小的步骤，并在每步之后加一次校验，避免单次调用承担过多推理。", "targetKind": "prompt" },
+    { "id": "r2", "rewritten": "在关键信息缺失时不猜测，改为先提一个具体的澄清问题。", "targetKind": "prompt" },
+    { "id": "r3", "rewritten": "把该调用的超时与重试上限收进配置，并在超时后走降级路径。", "targetKind": "config" },
+    { "id": "r4", "rewritten": "把该文件的读取与写入路径统一为一个来源，去掉两处各自拼接的相对路径。", "targetKind": "config" },
+    { "id": "r5", "rewritten": "把该工具的 description 改成写明它的返回值语义与副作用等级，减少调用方的误解。", "targetKind": "tool-desc" }
+  ]
+}

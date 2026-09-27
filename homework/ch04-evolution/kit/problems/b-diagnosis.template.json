@@ -1,0 +1,21 @@
+{
+  "_readme": "Part B 的作答模板。复制为 kit/answers/b-diagnosis.json 后填写。每个场景的 candidates 至少两个，且九项里至少一项的证据是 counterfactual 或 reproducible。rewritten 里不得出现『模型能力』或『用户表达』。",
+  "failures": [
+    { "id": "f1", "kind": "", "candidates": [ { "cause": "", "evidence": "" }, { "cause": "", "evidence": "" } ] },
+    { "id": "f2", "kind": "", "candidates": [ { "cause": "", "evidence": "" }, { "cause": "", "evidence": "" } ] },
+    { "id": "f3", "kind": "", "candidates": [ { "cause": "", "evidence": "" }, { "cause": "", "evidence": "" } ] },
+    { "id": "f4", "kind": "", "candidates": [ { "cause": "", "evidence": "" }, { "cause": "", "evidence": "" } ] },
+    { "id": "f5", "kind": "", "candidates": [ { "cause": "", "evidence": "" }, { "cause": "", "evidence": "" } ] },
+    { "id": "f6", "kind": "", "candidates": [ { "cause": "", "evidence": "" }, { "cause": "", "evidence": "" } ] },
+    { "id": "f7", "kind": "", "candidates": [ { "cause": "", "evidence": "" }, { "cause": "", "evidence": "" } ] },
+    { "id": "f8", "kind": "", "candidates": [ { "cause": "", "evidence": "" }, { "cause": "", "evidence": "" } ] },
+    { "id": "f9", "kind": "", "candidates": [ { "cause": "", "evidence": "" }, { "cause": "", "evidence": "" } ] }
+  ],
+  "rewrites": [
+    { "id": "r1", "rewritten": "", "targetKind": "" },
+    { "id": "r2", "rewritten": "", "targetKind": "" },
+    { "id": "r3", "rewritten": "", "targetKind": "" },
+    { "id": "r4", "rewritten": "", "targetKind": "" },
+    { "id": "r5", "rewritten": "", "targetKind": "" }
+  ]
+}

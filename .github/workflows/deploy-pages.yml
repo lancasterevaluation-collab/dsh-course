@@ -1,0 +1,54 @@
+name: Deploy docs to GitHub Pages
+
+# 站点由 VitePress 构建，产物在 .vitepress/dist，由 GitHub Pages 托管。
+# 两条触发：推送到默认分支，或手动触发一次发布。
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+# Pages 发布需要这三项权限：读代码、写 Pages、用 OIDC 换取部署令牌。
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时刻只跑一次发布；排队而不取消进行中的发布，避免半途中断留下坏站点。
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        # 子路径部署：base 取仓库名。这一步是"配错就全站 404"的那个配置，
+        # 因此它由 CI 注入而不是写死在 config.mts 里。
+        env:
+          DOCS_BASE: /${{ github.event.repository.name }}/
+        run: npm run docs:build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .vitepress/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

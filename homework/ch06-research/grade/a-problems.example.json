@@ -1,0 +1,51 @@
+{
+  "_readme": "Part A 的参考答案（只用于验证测试本身）。",
+  "classifications": [
+    { "id": "q1", "kind": "engineering", "criterion": "resource-test", "missing": [] },
+    { "id": "q2", "kind": "open", "criterion": "missing-measure", "missing": ["目标漂移的可观测定义", "一份人工标注的漂移数据集"] },
+    { "id": "q3", "kind": "engineering", "criterion": "resource-test", "missing": [] },
+    { "id": "q4", "kind": "open", "criterion": "missing-measure", "missing": ["状态一致性的可观测定义"] },
+    { "id": "q5", "kind": "open", "criterion": "missing-measure", "missing": ["矛盾判定的可靠方法", "矛盾判定的标注语料"] },
+    { "id": "q6", "kind": "engineering", "criterion": "resource-test", "missing": [] },
+    { "id": "q7", "kind": "not-answerable", "criterion": "answer-shape", "missing": ["「独立信号」本身没有共识"] },
+    { "id": "q8", "kind": "open", "criterion": "missing-measure", "missing": ["成本与质量的报告规范"] }
+  ],
+  "formulations": [
+    {
+      "id": "f1",
+      "independent": { "name": "重试策略", "values": ["无重试", "指数退避重试"] },
+      "dependent": { "name": "任务成功率", "instrument": "check" },
+      "baseline": { "kind": "ablation", "what": "关闭重试" }
+    },
+    {
+      "id": "f2",
+      "independent": { "name": "压缩阈值", "values": [0.5, 0.8] },
+      "dependent": { "name": "单任务 token 成本", "instrument": "check" },
+      "baseline": { "kind": "ablation", "what": "不做压缩" }
+    },
+    {
+      "id": "f3",
+      "independent": { "name": "用户模型注入", "values": ["不注入", "注入中等置信度以上"] },
+      "dependent": { "name": "用户纠正次数", "instrument": "human-label" },
+      "baseline": { "kind": "comparison", "what": "通用默认行为" }
+    },
+    {
+      "id": "f4",
+      "independent": { "name": "派发并发数", "values": [1, 3, 5] },
+      "dependent": { "name": "任务质量评分", "instrument": "model-judge" },
+      "baseline": { "kind": "sweep", "what": "并发数从 1 扫到 5" }
+    },
+    {
+      "id": "f5",
+      "independent": { "name": "状态更新频率", "values": ["每步更新", "每里程碑更新"] },
+      "dependent": { "name": "续作时的信息缺卡次数", "instrument": "check" },
+      "baseline": { "kind": "ablation", "what": "不外部化状态" }
+    }
+  ],
+  "decisions": [
+    { "id": "p1", "ifA": "阈值越高越好：把默认阈值上调", "ifB": "存在最优区间：做一次参数扫描再定默认值", "worthDoing": true },
+    { "id": "p2", "ifA": "越多越好：放宽写入门槛", "ifB": "超过某点后检索失准：收紧写入并加淘汰", "worthDoing": true },
+    { "id": "p3", "ifA": "越高越好：提高默认并发上限", "ifB": "收益在某个并发后饱和：按下游配额设上限", "worthDoing": true },
+    { "id": "p4", "ifA": "越长越好：继续往系统提示里加内容", "ifB": "长度超过某点后收益为负：拆分并只保留稳定前缀", "worthDoing": true }
+  ]
+}

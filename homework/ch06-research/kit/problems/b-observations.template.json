@@ -1,0 +1,22 @@
+{
+  "_readme": "Part B 的作答模板。复制为 kit/answers/b-observations.json 后填写。surprise 必须有 expected；rulings 每个至少三个解释且含至少一个 mundane；repros 的每个至少两步并给出最简性说明。",
+  "observations": [
+    { "id": "o1", "decision": "", "kind": "", "expected": "", "observed": "", "conditions": [] },
+    { "id": "o2", "decision": "", "kind": "", "expected": "", "observed": "", "conditions": [] },
+    { "id": "o3", "decision": "", "kind": "", "expected": "", "observed": "", "conditions": [] },
+    { "id": "o4", "decision": "", "kind": "", "expected": "", "observed": "", "conditions": [] },
+    { "id": "o5", "decision": "", "kind": "", "expected": "", "observed": "", "conditions": [] },
+    { "id": "o6", "decision": "", "kind": "", "expected": "", "observed": "", "conditions": [] }
+  ],
+  "rulings": [
+    { "id": "r1", "explanations": [ { "text": "", "kind": "" }, { "text": "", "kind": "" }, { "text": "", "kind": "" } ], "remaining": "", "how": "" },
+    { "id": "r2", "explanations": [ { "text": "", "kind": "" }, { "text": "", "kind": "" }, { "text": "", "kind": "" } ], "remaining": "", "how": "" },
+    { "id": "r3", "explanations": [ { "text": "", "kind": "" }, { "text": "", "kind": "" }, { "text": "", "kind": "" } ], "remaining": "", "how": "" },
+    { "id": "r4", "explanations": [ { "text": "", "kind": "" }, { "text": "", "kind": "" }, { "text": "", "kind": "" } ], "remaining": "", "how": "" }
+  ],
+  "repros": [
+    { "id": "m1", "steps": ["", ""], "expected": "", "observed": "", "minimality": "" },
+    { "id": "m2", "steps": ["", ""], "expected": "", "observed": "", "minimality": "" },
+    { "id": "m3", "steps": ["", ""], "expected": "", "observed": "", "minimality": "" }
+  ]
+}

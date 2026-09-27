@@ -1,0 +1,26 @@
+{
+  "_readme": "Part A 的作答模板。复制为 kit/answers/a-problems.json 后填写。open 与 not-answerable 必须有非空 missing；formulations 的自变量至少两个取值；decisions 的 ifA 与 ifB 必须不同。",
+  "classifications": [
+    { "id": "q1", "kind": "", "criterion": "", "missing": [] },
+    { "id": "q2", "kind": "", "criterion": "", "missing": [] },
+    { "id": "q3", "kind": "", "criterion": "", "missing": [] },
+    { "id": "q4", "kind": "", "criterion": "", "missing": [] },
+    { "id": "q5", "kind": "", "criterion": "", "missing": [] },
+    { "id": "q6", "kind": "", "criterion": "", "missing": [] },
+    { "id": "q7", "kind": "", "criterion": "", "missing": [] },
+    { "id": "q8", "kind": "", "criterion": "", "missing": [] }
+  ],
+  "formulations": [
+    { "id": "f1", "independent": { "name": "", "values": [] }, "dependent": { "name": "", "instrument": "" }, "baseline": { "kind": "", "what": "" } },
+    { "id": "f2", "independent": { "name": "", "values": [] }, "dependent": { "name": "", "instrument": "" }, "baseline": { "kind": "", "what": "" } },
+    { "id": "f3", "independent": { "name": "", "values": [] }, "dependent": { "name": "", "instrument": "" }, "baseline": { "kind": "", "what": "" } },
+    { "id": "f4", "independent": { "name": "", "values": [] }, "dependent": { "name": "", "instrument": "" }, "baseline": { "kind": "", "what": "" } },
+    { "id": "f5", "independent": { "name": "", "values": [] }, "dependent": { "name": "", "instrument": "" }, "baseline": { "kind": "", "what": "" } }
+  ],
+  "decisions": [
+    { "id": "p1", "ifA": "", "ifB": "", "worthDoing": false },
+    { "id": "p2", "ifA": "", "ifB": "", "worthDoing": false },
+    { "id": "p3", "ifA": "", "ifB": "", "worthDoing": false },
+    { "id": "p4", "ifA": "", "ifB": "", "worthDoing": false }
+  ]
+}

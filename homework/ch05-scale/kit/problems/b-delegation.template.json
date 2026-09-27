@@ -1,0 +1,49 @@
+{
+  "_readme": "Part B 的作答模板。复制为 kit/answers/b-delegation.json 后填写。每份协议的 goal 必须可判定、context.notGive 必须非空、outputFormat 必须含 maxChars；边界里的 parentHistory 必须是 false。",
+  "delegations": [
+    { "id": "t1", "goal": "", "context": { "give": [], "notGive": [] }, "constraints": ["", ""], "outputFormat": { "kind": "", "maxChars": 0 } },
+    { "id": "t2", "goal": "", "context": { "give": [], "notGive": [] }, "constraints": ["", ""], "outputFormat": { "kind": "", "maxChars": 0 } },
+    { "id": "t3", "goal": "", "context": { "give": [], "notGive": [] }, "constraints": ["", ""], "outputFormat": { "kind": "", "maxChars": 0 } },
+    { "id": "t4", "goal": "", "context": { "give": [], "notGive": [] }, "constraints": ["", ""], "outputFormat": { "kind": "", "maxChars": 0 } },
+    { "id": "t5", "goal": "", "context": { "give": [], "notGive": [] }, "constraints": ["", ""], "outputFormat": { "kind": "", "maxChars": 0 } },
+    { "id": "t6", "goal": "", "context": { "give": [], "notGive": [] }, "constraints": ["", ""], "outputFormat": { "kind": "", "maxChars": 0 } }
+  ],
+  "boundaries": [
+    {
+      "id": "e1",
+      "fs": { "read": [], "write": [] },
+      "net": [],
+      "budget": { "cpuMs": 0, "memoryMb": 0, "callsPerMinute": 0 },
+      "contextSharing": { "parentHistory": false, "memory": "none" },
+      "sideEffectCeiling": "",
+      "escapeAttempt": ""
+    },
+    {
+      "id": "e2",
+      "fs": { "read": [], "write": [] },
+      "net": [],
+      "budget": { "cpuMs": 0, "memoryMb": 0, "callsPerMinute": 0 },
+      "contextSharing": { "parentHistory": false, "memory": "none" },
+      "sideEffectCeiling": "",
+      "escapeAttempt": ""
+    },
+    {
+      "id": "e3",
+      "fs": { "read": [], "write": [] },
+      "net": [],
+      "budget": { "cpuMs": 0, "memoryMb": 0, "callsPerMinute": 0 },
+      "contextSharing": { "parentHistory": false, "memory": "none" },
+      "sideEffectCeiling": "",
+      "escapeAttempt": ""
+    },
+    {
+      "id": "e4",
+      "fs": { "read": [], "write": [] },
+      "net": [],
+      "budget": { "cpuMs": 0, "memoryMb": 0, "callsPerMinute": 0 },
+      "contextSharing": { "parentHistory": false, "memory": "none" },
+      "sideEffectCeiling": "",
+      "escapeAttempt": ""
+    }
+  ]
+}

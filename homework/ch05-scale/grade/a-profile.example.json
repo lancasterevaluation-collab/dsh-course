@@ -1,0 +1,29 @@
+{
+  "_readme": "Part A 的参考答案（只用于验证测试本身）。",
+  "defaults": [
+    { "id": "d1", "verdict": "reproducible", "reason": "项目级配置里显式写出，跨机器跨版本一致。", "action": "keep" },
+    { "id": "d2", "verdict": "environment-dependent", "reason": "由代码按机器核数推断，换机器结果就不同。", "action": "move-to-generation" },
+    { "id": "d3", "verdict": "reproducible", "reason": "用户级配置里显式写出。", "action": "keep" },
+    { "id": "d4", "verdict": "environment-dependent", "reason": "由运行位置（当前目录）决定。", "action": "move-to-generation" },
+    { "id": "d5", "verdict": "environment-dependent", "reason": "内建默认会随插件版本变化，且没有任何一层写出它。", "action": "make-explicit" },
+    { "id": "d6", "verdict": "environment-dependent", "reason": "读环境变量，不同环境不同。", "action": "move-to-generation" },
+    { "id": "d7", "verdict": "reproducible", "reason": "项目级配置里显式写出。", "action": "keep" },
+    { "id": "d8", "verdict": "environment-dependent", "reason": "内建默认，未写出，升级后可能变。", "action": "make-explicit" },
+    { "id": "d9", "verdict": "reproducible", "reason": "用户级配置里显式写出。", "action": "keep" },
+    { "id": "d10", "verdict": "environment-dependent", "reason": "由运行环境的临时目录决定。", "action": "move-to-generation" }
+  ],
+  "merges": [
+    { "id": "g1", "values": { "concurrency": 8 }, "origin": { "concurrency": "用户级" } },
+    { "id": "g2", "values": { "timeoutMs": 60000 }, "origin": { "timeoutMs": "项目级" } },
+    { "id": "g3", "values": { "tools": ["c"] }, "origin": { "tools": "用户级" } },
+    { "id": "g4", "values": { "retry": { "n": 5, "backoff": 1000 } }, "origin": { "retry.n": "用户级", "retry.backoff": "内建" } },
+    { "id": "g5", "values": { "a": 9, "b": 3 }, "origin": { "a": "运行参数", "b": "项目级" } },
+    { "id": "g6", "values": { "tags": [] }, "origin": { "tags": "运行参数" } }
+  ],
+  "consequences": [
+    { "id": "c1", "text": "删除构建产物目录，其中的内容不可恢复。", "risk": "high" },
+    { "id": "c2", "text": "引入一个新的第三方依赖，影响供应链；卸载也不可恢复（已下载的副本可能已被使用）。", "risk": "high" },
+    { "id": "c3", "text": "读取一个源文件，不产生任何改动，可恢复。", "risk": "low" },
+    { "id": "c4", "text": "执行一段运行时才生成的命令，影响范围无法预先判断，可能不可恢复。", "risk": "critical" }
+  ]
+}

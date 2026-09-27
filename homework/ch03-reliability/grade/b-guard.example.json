@@ -1,0 +1,35 @@
+{
+  "_readme": "Part B 的参考答案（只用于验证测试本身）。consequence 的写法是「后果 + 可恢复性」，不含命令原文。",
+  "rules": [
+    { "id": "op1", "risk": "low", "action": "allow", "consequence": "只是读取工作区内的文件内容，不产生改动，可恢复。" },
+    { "id": "op2", "risk": "low", "action": "allow", "consequence": "新建一个文件，原内容不受影响，可恢复。" },
+    { "id": "op3", "risk": "medium", "action": "ask", "consequence": "覆盖已有的文件，原有内容会丢失，不可恢复。" },
+    { "id": "op4", "risk": "high", "action": "ask", "consequence": "删除整个目录及其中的文件，内容丢失，不可恢复。" },
+    { "id": "op5", "risk": "critical", "action": "ask", "consequence": "删除工作区之外的文件，影响超出当前项目，不可恢复。" },
+    { "id": "op6", "risk": "medium", "action": "allow", "consequence": "执行项目里既有的构建脚本，行为可预期且可重跑，可恢复。" },
+    { "id": "op7", "risk": "critical", "action": "ask", "consequence": "执行一段运行时才生成的命令，影响范围无法预先判断，可能不可恢复。" },
+    { "id": "op8", "risk": "high", "action": "ask", "consequence": "把本地提交发布到远端，其他人会看到，本地无法收回，不可恢复。" },
+    { "id": "op9", "risk": "high", "action": "ask", "consequence": "引入外部代码到项目依赖中，影响供应链，卸载也不能完全消除影响，不可恢复。" },
+    { "id": "op10", "risk": "critical", "action": "ask", "consequence": "改动持续集成配置，影响后续所有协作者与流水线，回退需要再次改动，可恢复但代价高。" }
+  ],
+  "policies": [
+    {
+      "id": "bp1",
+      "action": "不必每次都问：在本次会话内记住这一条，但会话结束后失效。",
+      "reason": "同一会话内的重复批准会累积审批疲劳，而本会话粒度有天然的失效点，不会长期放宽权限。",
+      "granularity": "session"
+    },
+    {
+      "id": "bp2",
+      "action": "用项目级授权，并记录授予理由与时间，随项目配置一起被审查。",
+      "reason": "每周一次的频率不足以每次都问，而项目级授权有明确的范围与可撤销性，比永久授权更可控。",
+      "granularity": "project"
+    },
+    {
+      "id": "bp3",
+      "action": "缺少随范围失效与定期复核这两条性质。",
+      "reason": "永久授权只能靠人记得撤销，而它不会随项目变化自动失效，因此权限会随时间单调变宽。",
+      "granularity": "project"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "_readme": "这是 Part B 的作答模板。复制为 kit/answers/b-guard.json 后填写。consequence 必须是人话的后果描述：不含反引号、不含命令名、必须含『可恢复』或『不可恢复』之一。",
+  "rules": [
+    { "id": "op1", "risk": "", "action": "", "consequence": "" },
+    { "id": "op2", "risk": "", "action": "", "consequence": "" },
+    { "id": "op3", "risk": "", "action": "", "consequence": "" },
+    { "id": "op4", "risk": "", "action": "", "consequence": "" },
+    { "id": "op5", "risk": "", "action": "", "consequence": "" },
+    { "id": "op6", "risk": "", "action": "", "consequence": "" },
+    { "id": "op7", "risk": "", "action": "", "consequence": "" },
+    { "id": "op8", "risk": "", "action": "", "consequence": "" },
+    { "id": "op9", "risk": "", "action": "", "consequence": "" },
+    { "id": "op10", "risk": "", "action": "", "consequence": "" }
+  ],
+  "policies": [
+    { "id": "bp1", "action": "", "reason": "", "granularity": "" },
+    { "id": "bp2", "action": "", "reason": "", "granularity": "" },
+    { "id": "bp3", "action": "", "reason": "", "granularity": "" }
+  ]
+}

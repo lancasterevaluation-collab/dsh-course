@@ -1,0 +1,52 @@
+{
+  "_使用说明": "把每个 null 换成你的答案。每个 _提示 字段说明这个槽要填什么、以及为什么它值得填。填完跑：node tools/check.mjs --repo <dsh-mini 路径>",
+  "_文件名口径": "所有文件路径写相对 src/ 的形式，例如 kernel/session.ts 或 apps/web.ts。判分器会归一化 ./llm.ts 与 src/kernel/llm.ts 这类写法。",
+
+  "task1": {
+    "_这一题考什么": "你能不能从原始数据里分出一个模块的两种依赖：运行时会用到的（值），与只在编译期用到的（类型）。它们的波及面完全不同。",
+    "_先做这个": "node tools/depgraph.mjs --repo <path> --module kernel/session.ts",
+    "module": "kernel/session.ts",
+    "target": {
+      "_扇出": "只算值依赖（不是 import type）。这是本题最容易错的一处：session.ts 的那个内部 import 是类型导入。",
+      "fanOut": null,
+
+      "_扇入合计": "所有引用它的文件，值 + 仅类型都算。",
+      "fanIn": null,
+
+      "_值依赖子集": "只算用值的那些文件。工具会分两段列出来，但它不会告诉你哪一段才是答案——你要自己判断。",
+      "fanInValue": null,
+
+      "_不稳定性": "I = Ce / (Ca + Ce)，保留 4 位小数。注意 Ca 用合计口径（理由见上一行的注释）。",
+      "instability": null,
+
+      "_关键导出": "只列 export function / const / class 的名字，不列 type 与 interface。",
+      "keyExports": null
+    }
+  },
+
+  "task2": {
+    "_这一题考什么": "一个看起来很小的改动（给工具加个超时参数），实际会跨几个位置。其中有一类位置改了不会报错——找出它们，是本题分值最高的部分。",
+    "definedIn": null,
+    "toolPoolIn": null,
+    "silentTargets": null,
+    "spawnApi": null,
+    "blast": null
+  },
+
+  "task3": {
+    "_这一题考什么": "把一条架构原则变成可执行的检查。关键要求不是写脚本，而是证明它能报警。",
+    "scriptPath": null,
+    "selfTestOutput": null
+  },
+
+  "task4": {
+    "_这一题考什么": "把运行时看成两条并行的链：函数调用链与事件链。只读调用链会漏掉钩子点。",
+    "hookFiles": null,
+    "emitCount": null
+  },
+
+  "task5": {
+    "_这一题考什么": "你记住的是结构还是材料。诚实填写：只有闭卷答对的题号才算。",
+    "remembered": null
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "_readme": "Part A 的参考答案（只用于验证测试本身）。",
+  "writes": [
+    { "id": "m1", "decision": "skip", "kind": null, "reason": "一次性动作，不满足跨会话有用（做完就结束）。" },
+    { "id": "m2", "decision": "write", "kind": "fact", "reason": "可验证的项目事实，跨会话有用。" },
+    { "id": "m3", "decision": "write", "kind": "inference", "reason": "推测类：可以写入但必须带来源标注，且它跨会话有用。" },
+    { "id": "m4", "decision": "skip", "kind": null, "reason": "临时信息，一周后不成立。" },
+    { "id": "m5", "decision": "write", "kind": "fact", "reason": "用户声明的可验证事实，跨会话有用。" },
+    { "id": "m6", "decision": "skip", "kind": null, "reason": "临时路径，任务结束后即无效。" },
+    { "id": "m7", "decision": "write", "kind": "preference", "reason": "用户声明，跨会话有用的一条长期偏好。" },
+    { "id": "m8", "decision": "write", "kind": "inference", "reason": "它跨会话有用（是长期的能力线索），但属推测：写入必须带来源标注，可验证性由后续观察补充。" },
+    { "id": "m9", "decision": "write", "kind": "fact", "reason": "可验证的项目约定，跨会话有用。" },
+    { "id": "m10", "decision": "skip", "kind": null, "reason": "临时信息，会话结束后无意义。" },
+    { "id": "m11", "decision": "write", "kind": "preference", "reason": "用户声明的长期偏好，跨会话有用。" },
+    { "id": "m12", "decision": "skip", "kind": null, "reason": "它已被取代，不再是当前事实——可验证性已不成立；跨会话保留它会造成两条矛盾的记忆。" }
+  ],
+  "skills": [
+    { "id": "sk1", "description": "当需要把一个已经能工作的实现重新组织、而外部行为保持不变时使用。", "doesNotApplyWhen": "目标本身还不清楚或行为本来就要改变时（那是探索性改动，不是重构）。" },
+    { "id": "sk2", "description": "当需要为一段已有实现补上自动化验证、或修改后要确认没有破坏既有行为时使用。", "doesNotApplyWhen": "还在探索实现方式、尚不知道要测什么的阶段。" },
+    { "id": "sk3", "description": "当提交前的检查项已经明确（类型检查、Lint、测试）且需要一次跑完时使用。", "doesNotApplyWhen": "检查项本身尚在变化，或本次提交只是草稿备份。" },
+    { "id": "sk4", "description": "当需要对 TypeScript 代码做与可空性相关的清理（可选链、空值合并、类型收窄）时使用。", "doesNotApplyWhen": "代码中没有可空性相关的类型问题时。" },
+    { "id": "sk5", "description": "当需要为一段已完成的改动写下对外说明（改动内容、影响范围、验证方式）时使用。", "doesNotApplyWhen": "改动尚未验证通过时（先验证再写说明）。" },
+    { "id": "sk6", "description": "当需要处理并发访问共享状态的问题（加锁、队列、幂等）时使用。", "doesNotApplyWhen": "系统是单线程且不存在共享可变状态时。" }
+  ],
+  "bounded": [
+    { "id": "b1", "action": "先合并：把新候选与最相似的那条合并成一条，腾出位置。", "reason": "合并是讲义 4.1 推荐的处置——它保住信息，而直接拒绝会丢掉新的事实。" },
+    { "id": "b2", "action": "拒绝写入，并把这次拒绝作为一条可观测量记录下来。", "reason": "容量满时默认拒绝是安全的；没有可合并的对象意味着丢弃需要依据，而依据来自观测。" }
+  ]
+}

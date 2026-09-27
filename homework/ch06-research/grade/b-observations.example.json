@@ -1,0 +1,100 @@
+{
+  "_readme": "Part B 的参考答案（只用于验证测试本身）。",
+  "observations": [
+    {
+      "id": "o1", "decision": "log", "kind": "surprise",
+      "expected": "压缩阈值调高 → 上下文更长 → token 消耗上升",
+      "observed": "某类多轮小改动任务的消耗反而下降",
+      "conditions": ["阈值从 0.5 调到 0.8", "任务类型为多轮小改动", "模型版本固定"]
+    },
+    {
+      "id": "o2", "decision": "log", "kind": "anomaly",
+      "expected": "",
+      "observed": "一次测试跑了 10 秒，而平时是 1 秒",
+      "conditions": ["当时没有写下预期", "同一台机器", "同一批测试"]
+    },
+    {
+      "id": "o3", "decision": "skip", "kind": null, "expected": "", "observed": "", "conditions": []
+    },
+    {
+      "id": "o4", "decision": "log", "kind": "silent-deviation",
+      "expected": "",
+      "observed": "缓存命中率一周内从 60% 缓慢降到 52%",
+      "conditions": ["这一周没有相关改动", "同一模型版本", "同一批任务类型"]
+    },
+    {
+      "id": "o5", "decision": "skip", "kind": null, "expected": "", "observed": "", "conditions": []
+    },
+    {
+      "id": "o6", "decision": "log", "kind": "surprise",
+      "expected": "重试会让成功率上升",
+      "observed": "总耗时上升而成功率没有变化",
+      "conditions": ["错误类型为限流", "重试次数 3", "同一批任务"]
+    }
+  ],
+  "rulings": [
+    {
+      "id": "r1",
+      "explanations": [
+        { "text": "我比较的是不同的任务集合（这次多了一类小任务）", "kind": "mundane" },
+        { "text": "压缩本身有开销与重述成本，阈值调高后这类任务的重述次数下降", "kind": "mechanism" },
+        { "text": "模型对这类的输入长度不敏感，压缩带来的收益超过上下文变长的代价", "kind": "mechanism" }
+      ],
+      "remaining": "压缩本身的开销与重述次数是此前没有计入模型的成本项",
+      "how": "experiment"
+    },
+    {
+      "id": "r2",
+      "explanations": [
+        { "text": "那次恰好机器上有别的负载", "kind": "mundane" },
+        { "text": "该测试里有一个首次运行才触发的初始化", "kind": "mechanism" },
+        { "text": "它的判定依赖一个外部服务，那次网络慢", "kind": "mechanism" }
+      ],
+      "remaining": "任务依赖外部状态，属于不稳定任务",
+      "how": "counterexample"
+    },
+    {
+      "id": "r3",
+      "explanations": [
+        { "text": "我看错了统计窗口（两周的数据混在一起）", "kind": "mundane" },
+        { "text": "前缀的组装顺序在某个改动后变得不稳定", "kind": "mechanism" },
+        { "text": "服务端的缓存策略或容量发生了变化", "kind": "mechanism" }
+      ],
+      "remaining": "前缀稳定性下降，需要用两次相同请求的命中率对比来区分",
+      "how": "experiment"
+    },
+    {
+      "id": "r4",
+      "explanations": [
+        { "text": "我比的是不同规模的任务（这次任务更大）", "kind": "mundane" },
+        { "text": "每个子任务都要重复说明目标与约束，固定开销被乘以子任务数", "kind": "mechanism" },
+        { "text": "回收结果时父会话又读了大量文本", "kind": "mechanism" }
+      ],
+      "remaining": "派发的成本放大被低估：固定开销乘以子任务数，加上回收的读取",
+      "how": "lookup"
+    }
+  ],
+  "repros": [
+    {
+      "id": "m1",
+      "steps": ["选一个多轮小改动任务，记录它的 token 消耗", "把压缩阈值从 0.5 调到 0.8，重跑同一任务并记录消耗"],
+      "expected": "阈值调高 → 消耗上升",
+      "observed": "消耗下降",
+      "minimality": "两步都在起作用：去掉第一步就没有基线可比，去掉第二步就没有干预"
+    },
+    {
+      "id": "m2",
+      "steps": ["单独跑那一个测试并计时", "在同一机器上再跑两次同一测试并计时"],
+      "expected": "三次耗时接近",
+      "observed": "第一次 10 秒，后两次约 1 秒",
+      "minimality": "第一次用于复现，后两次用于区分'偶发'与'稳定慢'；去掉任一步都无法判断"
+    },
+    {
+      "id": "m3",
+      "steps": ["用相同前缀连发两次请求并记录命中率", "换一个会变化的前缀再连发两次并记录命中率"],
+      "expected": "相同前缀的第二次命中率显著上升",
+      "observed": "相同前缀的第二次命中率未上升，说明前缀发生了变化",
+      "minimality": "两次对比缺一不可：只有前者无法判断是前缀问题还是服务端缓存被清"
+    }
+  ]
+}

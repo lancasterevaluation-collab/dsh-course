@@ -1,0 +1,31 @@
+{
+  "_说明": "作答模板 · 1.3 读代码与架构\n把这份文件复制到 kit/answers/a3-architecture.json，然后逐栏填。\n判分口径见 tests/t3-architecture.mjs 的开头注释（例如 task1 只算 ./ 与 ../ 的相对导入）。",
+  "task1": {
+    "module": "",
+    "target": {
+      "fanOut": [],
+      "fanIn": [],
+      "instability": null,
+      "fanInValue": [],
+      "keyExports": []
+    }
+  },
+  "task2": {
+    "definedIn": [],
+    "toolPoolIn": [],
+    "silentTargets": [],
+    "spawnApi": "",
+    "blast": []
+  },
+  "task3": {
+    "scriptPath": "",
+    "selfTestOutput": ""
+  },
+  "task4": {
+    "hookFiles": [],
+    "emitCount": null
+  },
+  "task5": {
+    "remembered": []
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "_说明": "这是参考答案（用于自测判分器）。做作业时请复制成 answers.json 并自己填写，不要照抄。",
+  "task1": {
+    "module": "kernel/session.ts",
+    "target": {
+      "fanOut": [],
+      "fanIn": [
+        "kernel/agent.ts",
+        "apps/cli.ts",
+        "apps/repl.ts",
+        "apps/web.ts",
+        "plugins/agent-loop.ts",
+        "plugins/session.ts",
+        "plugins/evolution.ts",
+        "plugins/multi-agent.ts",
+        "evolution/diagnose.ts",
+        "evolution/nudge.ts",
+        "demos/demo-agent.ts",
+        "demos/demo-diagnose.ts",
+        "demos/demo-guard.ts",
+        "demos/demo-modes.ts",
+        "demos/demo-retry.ts",
+        "demos/demo-session.ts"
+      ],
+      "instability": 0.0,
+      "fanInValue": [
+        "kernel/agent.ts",
+        "plugins/session.ts",
+        "demos/demo-agent.ts",
+        "demos/demo-diagnose.ts",
+        "demos/demo-guard.ts",
+        "demos/demo-retry.ts",
+        "demos/demo-session.ts"
+      ],
+      "keyExports": [
+        "SURFACE_EVENT_TYPES",
+        "Session",
+        "deriveMessages",
+        "systemPromptOf",
+        "computeStats",
+        "assertModelVisibleMatchesLog"
+      ]
+    }
+  },
+  "task2": {
+    "definedIn": ["kernel/command-tool.ts"],
+    "toolPoolIn": ["plugins/tools.ts"],
+    "silentTargets": ["modes/minimal.json", "modes/creator.json", "prompts/minimal.md"],
+    "spawnApi": "node:child_process 的 spawn",
+    "blast": [
+      "kernel/command-tool.ts",
+      "plugins/tools.ts",
+      "modes/minimal.json",
+      "modes/creator.json",
+      "prompts/minimal.md"
+    ]
+  },
+  "task3": {
+    "scriptPath": "任务3-规则命令化/check.ps1",
+    "selfTestOutput": "PASS（人为制造一次越界 import 后，脚本报出 src/kernel/bad.ts:3 并返回退出码 1）"
+  },
+  "task4": {
+    "hookFiles": [
+      "apps/repl.ts",
+      "apps/web.ts",
+      "demos/demo-events.ts",
+      "plugins/evolution.ts"
+    ],
+    "emitCount": 18
+  },
+  "task5": {
+    "remembered": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12"]
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "_readme": "Part B 的参考答案（只用于验证测试本身）。目标必须可判定（不含「看一下」这类含糊说法）。",
+  "delegations": [
+    {
+      "id": "t1",
+      "goal": "列出仓库的顶层目录，并为每个目录给出一句职责说明，输出一份不超过 20 行的清单。",
+      "context": { "give": ["仓库根目录的路径", "package.json 里的 workspaces 字段"], "notGive": ["各包的实现细节", "其他卷的讲义正文"] },
+      "constraints": ["只能读取仓库内的文件", "不得修改任何文件", "输出不超过 20 行"],
+      "outputFormat": { "kind": "list", "maxChars": 2000 }
+    },
+    {
+      "id": "t2",
+      "goal": "把 5.1 那一节的 L1 部分改写得更紧凑，并保证 17 节骨架与全部判据表仍在。",
+      "context": { "give": ["5.1 的现行正文", "0.3 规范的篇幅门槛"], "notGive": ["其他篇的正文", "我自己对风格的偏好记录"] },
+      "constraints": ["不得改动其他小节", "必须保留全部判据表", "改写后导论占比不超过 20%"],
+      "outputFormat": { "kind": "patch", "maxChars": 6000 }
+    },
+    {
+      "id": "t3",
+      "goal": "对比关键词检索与向量检索在本项目语料上的前 3 命中率，输出结论与依据。",
+      "context": { "give": ["语料的位置与规模", "两条检索路径的入口"], "notGive": ["历史失败案例", "我对向量检索的既有判断"] },
+      "constraints": ["必须使用同一批查询", "必须报告命中率而非主观评价", "结论不超过 500 字"],
+      "outputFormat": { "kind": "text", "maxChars": 3000 }
+    },
+    {
+      "id": "t4",
+      "goal": "定位并修复 `parseRef` 在输入为空字符串时返回 null 而非抛错的问题，并补一个覆盖该条件的测试。",
+      "context": { "give": ["出错的调用栈", "该模块的现有测试"], "notGive": ["整个仓库的改动历史", "无关模块的源码"] },
+      "constraints": ["只能改动该模块与它的测试", "必须让全量测试通过", "不得改变其他函数的签名"],
+      "outputFormat": { "kind": "patch", "maxChars": 4000 }
+    },
+    {
+      "id": "t5",
+      "goal": "为 5.2 写一节关于外部工具接入的内容，包含四步接入流程与信任边界的四个维度。",
+      "context": { "give": ["5.2 的骨架与相邻小节的标题", "0.3 的篇幅门槛"], "notGive": ["其他篇的正文", "本卷的作业材料"] },
+      "constraints": ["必须使用 17 节骨架", "不得改动其他篇", "篇幅不少于 20K 字符"],
+      "outputFormat": { "kind": "text", "maxChars": 30000 }
+    },
+    {
+      "id": "t6",
+      "goal": "为 `metrics` 模块的四个公开函数各写一个用例，并让全量测试通过。",
+      "context": { "give": ["该模块的四个函数签名", "现有测试的组织方式"], "notGive": ["其他模块的测试", "我对覆盖率目标的看法"] },
+      "constraints": ["每个函数至少一个用例", "必须覆盖空集合的输入", "全量测试必须通过"],
+      "outputFormat": { "kind": "patch", "maxChars": 5000 }
+    }
+  ],
+  "boundaries": [
+    {
+      "id": "e1",
+      "fs": { "read": ["/repo"], "write": [] },
+      "net": [],
+      "budget": { "cpuMs": 2000, "memoryMb": 256, "callsPerMinute": 60 },
+      "contextSharing": { "parentHistory": false, "memory": "filtered" },
+      "sideEffectCeiling": "read",
+      "escapeAttempt": "尝试向 /repo/build 写入一个文件，应当被拒绝（它的等级由配置指定为 read，不信自报）"
+    },
+    {
+      "id": "e2",
+      "fs": { "read": [], "write": [] },
+      "net": ["api.deepseek.com"],
+      "budget": { "cpuMs": 1000, "memoryMb": 128, "callsPerMinute": 30 },
+      "contextSharing": { "parentHistory": false, "memory": "none" },
+      "sideEffectCeiling": "write",
+      "escapeAttempt": "尝试请求白名单之外的域名，应当被拒绝"
+    },
+    {
+      "id": "e3",
+      "fs": { "read": [], "write": [] },
+      "net": [],
+      "budget": { "cpuMs": 5000, "memoryMb": 512, "callsPerMinute": 10 },
+      "contextSharing": { "parentHistory": false, "memory": "none" },
+      "sideEffectCeiling": "system",
+      "escapeAttempt": "尝试读取主目录下的任意文件，应当被拒绝（白名单为空）"
+    },
+    {
+      "id": "e4",
+      "fs": { "read": [], "write": [] },
+      "net": ["db.internal"],
+      "budget": { "cpuMs": 2000, "memoryMb": 256, "callsPerMinute": 20 },
+      "contextSharing": { "parentHistory": false, "memory": "filtered" },
+      "sideEffectCeiling": "write",
+      "escapeAttempt": "尝试写入白名单之外的表，应当被拒绝（优先只读账号）"
+    }
+  ]
+}

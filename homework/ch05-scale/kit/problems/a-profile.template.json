@@ -1,0 +1,29 @@
+{
+  "_readme": "Part A 的作答模板。复制为 kit/answers/a-profile.json 后填写。verdict=environment-dependent 的项，action 必须是 move-to-generation；合并的 origin 对嵌套值用点路径（例如 retry.n）。",
+  "defaults": [
+    { "id": "d1", "verdict": "", "reason": "", "action": "" },
+    { "id": "d2", "verdict": "", "reason": "", "action": "" },
+    { "id": "d3", "verdict": "", "reason": "", "action": "" },
+    { "id": "d4", "verdict": "", "reason": "", "action": "" },
+    { "id": "d5", "verdict": "", "reason": "", "action": "" },
+    { "id": "d6", "verdict": "", "reason": "", "action": "" },
+    { "id": "d7", "verdict": "", "reason": "", "action": "" },
+    { "id": "d8", "verdict": "", "reason": "", "action": "" },
+    { "id": "d9", "verdict": "", "reason": "", "action": "" },
+    { "id": "d10", "verdict": "", "reason": "", "action": "" }
+  ],
+  "merges": [
+    { "id": "g1", "values": {}, "origin": {} },
+    { "id": "g2", "values": {}, "origin": {} },
+    { "id": "g3", "values": {}, "origin": {} },
+    { "id": "g4", "values": {}, "origin": {} },
+    { "id": "g5", "values": {}, "origin": {} },
+    { "id": "g6", "values": {}, "origin": {} }
+  ],
+  "consequences": [
+    { "id": "c1", "text": "", "risk": "" },
+    { "id": "c2", "text": "", "risk": "" },
+    { "id": "c3", "text": "", "risk": "" },
+    { "id": "c4", "text": "", "risk": "" }
+  ]
+}

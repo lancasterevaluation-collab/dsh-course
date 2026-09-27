@@ -1,0 +1,29 @@
+{
+  "_readme": "Part A 的作答模板。复制为 kit/answers/a-memory.json 后填写。reason 必须提到三个过滤器之一（跨会话/可验证/临时）；skills 的 description 不得以『关于』『本技能』开头。",
+  "writes": [
+    { "id": "m1", "decision": "", "kind": null, "reason": "" },
+    { "id": "m2", "decision": "", "kind": null, "reason": "" },
+    { "id": "m3", "decision": "", "kind": null, "reason": "" },
+    { "id": "m4", "decision": "", "kind": null, "reason": "" },
+    { "id": "m5", "decision": "", "kind": null, "reason": "" },
+    { "id": "m6", "decision": "", "kind": null, "reason": "" },
+    { "id": "m7", "decision": "", "kind": null, "reason": "" },
+    { "id": "m8", "decision": "", "kind": null, "reason": "" },
+    { "id": "m9", "decision": "", "kind": null, "reason": "" },
+    { "id": "m10", "decision": "", "kind": null, "reason": "" },
+    { "id": "m11", "decision": "", "kind": null, "reason": "" },
+    { "id": "m12", "decision": "", "kind": null, "reason": "" }
+  ],
+  "skills": [
+    { "id": "sk1", "description": "", "doesNotApplyWhen": "" },
+    { "id": "sk2", "description": "", "doesNotApplyWhen": "" },
+    { "id": "sk3", "description": "", "doesNotApplyWhen": "" },
+    { "id": "sk4", "description": "", "doesNotApplyWhen": "" },
+    { "id": "sk5", "description": "", "doesNotApplyWhen": "" },
+    { "id": "sk6", "description": "", "doesNotApplyWhen": "" }
+  ],
+  "bounded": [
+    { "id": "b1", "action": "", "reason": "" },
+    { "id": "b2", "action": "", "reason": "" }
+  ]
+}

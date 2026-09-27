@@ -1,0 +1,26 @@
+{
+  "_readme": "这是 Part A 的作答模板。复制为 kit/answers/a-retry.json 后填写。answer 与 reason 都必须填；reason 里要提到判断依据（类型/状态/幂等/副作用/限流/超时之一）。", 
+  "classification": [
+    { "id": "e1", "answer": "", "reason": "" },
+    { "id": "e2", "answer": "", "reason": "" },
+    { "id": "e3", "answer": "", "reason": "" },
+    { "id": "e4", "answer": "", "reason": "" },
+    { "id": "e5", "answer": "", "reason": "" },
+    { "id": "e6", "answer": "", "reason": "" },
+    { "id": "e7", "answer": "", "reason": "" },
+    { "id": "e8", "answer": "", "reason": "" },
+    { "id": "e9", "answer": "", "reason": "" },
+    { "id": "e10", "answer": "", "reason": "" },
+    { "id": "e11", "answer": "", "reason": "" },
+    { "id": "e12", "answer": "", "reason": "" }
+  ],
+  "policies": [
+    { "id": "p1", "answer": "", "reason": "" },
+    { "id": "p2", "answer": "", "reason": "" },
+    { "id": "p3", "answer": "", "reason": "" }
+  ],
+  "counterexamples": [
+    { "id": "c1", "answer": "", "reason": "", "conditions": [] },
+    { "id": "c2", "answer": "", "reason": "", "conditions": [] }
+  ]
+}

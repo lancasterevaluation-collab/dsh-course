@@ -1,0 +1,111 @@
+/* 本课程的阅读层次样式。
+ *
+ * 三档视觉强调，各有固定语义（见 00-导论/0.6 规范第六节）：
+ *   · 重点（keypoint）—— 反直觉点、致命陷阱、必须先记住的结论。用低饱和砖红，浅深两套值。
+ *   · 命题（theorem）—— 定义与命题块，中性偏冷，与正文区分但不抢注意力。
+ *   · 数据（data）—— 来自一手材料的实测数字与引用，用等宽强调。
+ * 颜色选择以护眼为先：不用纯红（#ff0000），浅色模式用 #a94442 一档（砖红），
+ * 深色模式用降饱和的 #e0a9a4，背景给足对比但不过亮。
+ */
+
+:root {
+  --kp-fg: #a94442;
+  --kp-bg: #fdf5f4;
+  --kp-border: #c08a83;
+  --kp-strong: #983b39;
+
+  --th-fg: #2c3e50;
+  --th-bg: #f6f8fa;
+  --th-border: #8fa6b8;
+
+  --dt-fg: #1f6f5c;
+  --dt-bg: #f3faf7;
+  --dt-border: #7fb3a4;
+}
+
+.dark {
+  --kp-fg: #e0a9a4;
+  --kp-bg: #2b1d1c;
+  --kp-border: #9a625c;
+  --kp-strong: #f0bdb7;
+
+  --th-fg: #c8d6e5;
+  --th-bg: #1c2228;
+  --th-border: #5b7183;
+
+  --dt-fg: #9fd0be;
+  --dt-bg: #16231f;
+  --dt-border: #4e7d70;
+}
+
+/* 重点：反直觉点、致命陷阱、必须先记住的结论 */
+.custom-block.keypoint,
+.keypoint {
+  margin: 16px 0;
+  padding: 12px 16px;
+  border-left: 3px solid var(--kp-border);
+  border-radius: 0 6px 6px 0;
+  background: var(--kp-bg);
+  color: inherit;
+}
+
+.custom-block.keypoint .custom-block-title,
+.keypoint-title {
+  font-weight: 700;
+  color: var(--kp-fg);
+  margin-bottom: 4px;
+}
+
+.custom-block.keypoint strong,
+.keypoint strong {
+  color: var(--kp-strong);
+}
+
+/* 命题与定义块：中性偏冷，与正文区分 */
+.custom-block.theorem,
+.theorem {
+  margin: 16px 0;
+  padding: 12px 16px;
+  border-left: 3px solid var(--th-border);
+  border-radius: 0 6px 6px 0;
+  background: var(--th-bg);
+}
+
+.custom-block.theorem .custom-block-title,
+.theorem-title {
+  font-weight: 700;
+  color: var(--th-fg);
+  margin-bottom: 4px;
+}
+
+/* 数据块：一手材料的实测数字与出处 */
+.custom-block.data,
+.data {
+  margin: 16px 0;
+  padding: 12px 16px;
+  border-left: 3px solid var(--dt-border);
+  border-radius: 0 6px 6px 0;
+  background: var(--dt-bg);
+}
+
+.custom-block.data .custom-block-title,
+.data-title {
+  font-weight: 700;
+  color: var(--dt-fg);
+  margin-bottom: 4px;
+}
+
+/* 反直觉标记 ★：行内强调，用与重点同族的颜色 */
+.insight {
+  color: var(--kp-fg);
+  font-weight: 700;
+}
+
+/* 表格里的强调列：不抢注意力，只把关键列抬起来 */
+.vp-doc table td strong {
+  color: var(--kp-strong);
+}
+
+.dark .vp-doc table td strong {
+  color: var(--kp-strong);
+}
