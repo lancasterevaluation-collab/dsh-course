@@ -133,6 +133,19 @@ export default defineConfig({
   // 数学渲染在构建期完成（KaTeX）：HTML 里直接是排版好的公式，
   // 不依赖 CDN，也不受客户端路由影响。样式表由 .vitepress/theme/index.ts 引入。
   markdown: {
+    // 锚点 id 的生成规则必须与讲义目录表里手写的锚点一致：
+    // 只保留字母、数字与东亚文字，其余字符（含空白与标点）一律删除。
+    // VitePress 默认把中文标点（、：，）留在 id 里，导致目录表点不动；
+    // 它还会给数字开头的 id 加下划线前缀，那同样会让目录表点不动。
+    anchor: {
+      slugify: (str) =>
+        str
+          .normalize('NFKD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^\p{L}\p{N}\s]/gu, '')
+          .replace(/\s+/g, '')
+          .toLowerCase(),
+    },
     config: (md) => {
       md.use(katex)
     },
